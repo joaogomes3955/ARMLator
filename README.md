@@ -33,5 +33,6 @@ O projeto visa facilitar o aprendizado de assembly ARM, registradores e controle
 ## 📦 Como rodar o ARMLator localmente
 
 g++ -std=c++17 -o armlator src/*.cpp -o armlator
+
 ./armlator.exe
 
