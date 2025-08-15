@@ -1,0 +1,48 @@
+.title {
+  color: #60A5FA;
+}
+
+.cpsr {
+  background-color: #111827;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #374151;
+}
+
+.itens-div {
+    background-color: #1F2937;
+    border-radius: 8px;
+    padding-left: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    border: 1px solid #374151;
+}
+
+.item-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    gap: 80px;
+}
+
+.flags-div{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    gap: 10px;
+    width: 130px;
+}
+
+.label{
+    color: #fff;
+}
+
+.values {
+    color: #93C5FD;
+}
+
+.gap {
+    height: 10px;
+    width: 20px;
+}

@@ -1,0 +1,48 @@
+.buttons {
+  margin-right: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+.title {
+  color: #60A5FA;
+}
+
+.buttons-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  gap: 16px;
+}
+
+.execution-controls {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  background-color: #111827;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #374151;
+}
+
+.reset-button {
+  margin-right: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #4B5563;
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+.buttons:hover {
+  background-color: #1e40af;
+}
+
+.reset-button:hover {
+  background-color: #4B5553;
+}

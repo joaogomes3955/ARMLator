@@ -1,0 +1,51 @@
+.registers {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  border-radius: 0.5rem;
+}
+
+.span-register {
+  color: #fff;
+}
+
+.span-div {
+  width: 90px;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  gap: 10px;
+}
+
+.span-description {
+  color: #9CA3AF;
+  font-size: 10px;
+}
+
+.span-value {
+  color: #93C5FD;
+  font-size: 14px;
+}
+
+.register {
+  width: 160px;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  gap: 5px;
+  background-color: #1F2937;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #374151;
+}
+
+.title {
+  color: #60A5FA;
+}
+
+.register-div {
+  background-color: #111827;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #374151;
+}

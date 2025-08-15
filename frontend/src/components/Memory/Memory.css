@@ -1,0 +1,49 @@
+.title {
+  color: #60A5FA;
+}
+
+.memory {
+  background-color: #111827;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #374151;
+}
+
+.table {
+  background-color: #1F2937;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+}
+
+.table-title-div{
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  padding: 8px;
+  padding-left: 16px;
+  color: #60A5FA;
+  font-size: 16px;
+  font-weight: 600;
+  gap: 136px;
+}
+
+.address-value{
+  color: #fff;
+}
+
+.number-value{
+  color: #93C5FD;
+}
+
+.table-content-div{
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  padding: 8px;
+  padding-left: 16px;
+  gap: 150px;
+  font-size: 16px;
+  border-bottom: 1px solid #374151;
+}
