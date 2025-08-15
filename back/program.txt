@@ -1,0 +1,22 @@
+MOV R0, #15       ; n = 15
+MOV R1, #1        ; fib0 = 1
+MOV R2, #1        ; fib1 = 1
+
+CMP R0, #0
+BEQ 10             ; se n == 0, salta para fim
+CMP R0, #1
+BEQ 8             ; se n == 1, salta para fim
+
+MOV R3, #2        ; i = 2
+
+; LOOP:
+ADD R4, R1, R2    ; fib = fib0 + fib1
+MOV R1, R2        ; fib0 = fib1
+MOV R2, R4        ; fib1 = fib
+ADD R3, R3, #1    ; i++
+CMP R3, R0        ; compara i com n
+BNE -5            ; se i != n, volta ao início do loop
+
+; fim:
+MOV R0, R2        ; resultado final em R0
+NOP
