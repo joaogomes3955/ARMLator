@@ -8,14 +8,14 @@ Dessa forma, o ARMLator cumpre seu objetivo de ser uma ferramenta didática, apr
 
 Como rodar o ARMLator do zero. São necessários 3 termianis
 1) Compilar o backend (C++)
-   cd back
-   g++ -std=c++17 -O2 src/*.cpp -o armlator
-2) Iniciar o servidor Node.js
-   cd server
-   npm install (primeira vez)
-   npm start
-3) Rodar o frontend
-   cd frontend
-   npm install (priemira vez)
-   npm start
+   a) cd back
+   b) g++ -std=c++17 -O2 src/*.cpp -o armlator
+3) Iniciar o servidor Node.js
+   a) cd server
+   b) npm install (primeira vez)
+   c) npm start
+4) Rodar o frontend
+   a) cd frontend
+   b) npm install (priemira vez)
+   c) npm start
    
