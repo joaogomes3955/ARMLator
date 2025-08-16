@@ -5,3 +5,17 @@ O projeto é dividido em duas partes principais. O backend, implementado em C++,
 O parser do ARMLator é tolerante e aceita instruções com vírgulas, colchetes em operações de memória e comentários no estilo ;. As instruções suportadas incluem operações aritméticas, lógicas, de desvio condicional e acesso à memória, cobrindo um conjunto essencial para demonstrar a lógica de execução de programas em assembly ARM. Assim, o ARMLator não apenas executa programas simples, como somas ou multiplicações, mas também permite implementar rotinas mais complexas, como cálculo de fatorial, sequência de Fibonacci ou contagem de bits.
 
 Dessa forma, o ARMLator cumpre seu objetivo de ser uma ferramenta didática, aproximando estudantes da arquitetura ARM e tornando tangível o funcionamento de registradores, memória e flags durante a execução de programas em baixo nível.
+
+Como rodar o ARMLator do zero. São necessários 3 termianis
+1) Compilar o backend (C++)
+   cd back
+   g++ -std=c++17 -O2 src/*.cpp -o armlator
+2) Iniciar o servidor Node.js
+   cd server
+   npm install (primeira vez)
+   npm start
+3) Rodar o frontend
+   cd frontend
+   npm install (priemira vez)
+   npm start
+   
