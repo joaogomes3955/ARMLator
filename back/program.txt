@@ -1,2 +1,17 @@
-MOV R4, #2
+MOV R0, #10
+MOV R1, #1
+STR R1, [R4, #4]
+STR R1, [R4, #8]
+SUB R0, R0, #2
 
+LDR R2, [R4, #8]
+LDR R3, [R4, #4]
+R1, R2, R3
+STR R3, [R4, #8]
+STR R1, [R4, #4]
+SUB R0, R0, #1
+CMP R0, R15
+BNE -7
+
+MOV R0, R1
+NOP

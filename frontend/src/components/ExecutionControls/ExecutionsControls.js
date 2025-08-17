@@ -5,7 +5,7 @@ function ExecutionControls({ onStart, onRun, onStep, onReset }) {
     <div className='execution-controls'>
       <p className='title'>Controles de execução</p>
       <div className="buttons-div">
-        <button onClick={onStart} className='buttons'>Iniciar</button>
+        <button onClick={onStart} className='buttons'>Compilar</button>
         <button onClick={onRun} className="buttons">Executar</button>
         <button onClick={onStep} className='buttons'>Passo a Passo</button>
         <button onClick={onReset} className='reset-button'>Resetar</button>

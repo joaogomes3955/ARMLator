@@ -7,14 +7,11 @@ O parser do ARMLator é tolerante e aceita instruções com vírgulas, colchetes
 Dessa forma, o ARMLator cumpre seu objetivo de ser uma ferramenta didática, aproximando estudantes da arquitetura ARM e tornando tangível o funcionamento de registradores, memória e flags durante a execução de programas em baixo nível.
 
 Como rodar o ARMLator do zero. São necessários 3 termianis
-1) Compilar o backend (C++)
-   a) cd back
-   b) g++ -std=c++17 -O2 src/*.cpp -o armlator
-3) Iniciar o servidor Node.js
+1) Iniciar o servidor Node.js
    a) cd server
    b) npm install (primeira vez)
    c) npm start
-4) Rodar o frontend
+2) Rodar o frontend
    a) cd frontend
    b) npm install (priemira vez)
    c) npm start

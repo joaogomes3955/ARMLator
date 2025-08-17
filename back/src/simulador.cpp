@@ -61,7 +61,7 @@ static inline void dump_estado(const std::array<int,16>& regs,
     int base = 0x1000;
     for (int i = 0; i < 8 && i < static_cast<int>(memoria.size()); ++i) {
         int addr = base + i * 4;
-        uint32_t val = static_cast<uint32_t>(memoria[i]);
+        uint32_t val = static_cast<uint32_t>(memoria[i*4]);
         std::cout << "MEM 0x" << std::uppercase << std::hex << addr
                   << " = 0x" << std::setw(8) << std::setfill('0') << val
                   << std::nouppercase << std::dec << "\n";

@@ -14,7 +14,7 @@ import Memoria from "./classes/Memoria";
 import CPSR from "./classes/CPSR";
 
 // API (servidor ponte em http://localhost:3001)
-import { loadProgram, step, run as runSteps, resetSim } from "./api";
+import { loadProgram, step, run as runSteps } from "./api";
 
 function App() {
   // === Editor ===
@@ -55,7 +55,7 @@ NOP`
   const [cpsr, setCpsr] = useState(new CPSR(0, 0, 0, 0, 0));
 
   // === Mappers (dump JSON -> modelos) ===
-  function mapRegs(regsArray) {
+  function mapRegs(regsArray, pc) {
     const obj = {};
     for (let i = 0; i < 16; i++) {
       const nome = `R${i}`;
@@ -65,7 +65,7 @@ NOP`
         i === 15 ? "PC (Program Counter)" : "";
       obj[`registrador${i + 1}`] = new Registrador(
         nome,
-        Number(regsArray?.[i] ?? 0),
+        Number(i === 15 ? pc : regsArray?.[i] ?? 0),
         desc
       );
     }
@@ -97,7 +97,7 @@ NOP`
     // dá 1 passo para sincronizar com o primeiro dump do simulador
     const s = await step();
     if (s?.ok) {
-      setRegistradores(mapRegs(s.state?.regs));
+      setRegistradores(mapRegs(s.state?.regs, s.state?.pc));
       setCpsr(mapCpsr(s.state?.flags));
       setMemoria(prev => ({ ...prev, ...mapMem(s.state?.memory) }));
     }
@@ -106,7 +106,8 @@ NOP`
   async function onStep() {
     const s = await step();
     if (s?.ok) {
-      setRegistradores(mapRegs(s.state?.regs));
+      console.log(s);
+      setRegistradores(mapRegs(s.state?.regs, s.state?.pc));
       setCpsr(mapCpsr(s.state?.flags));
       setMemoria(prev => ({ ...prev, ...mapMem(s.state?.memory) }));
     }
@@ -120,7 +121,7 @@ NOP`
       if (!r?.ok) break;
 
       const st = r.state;
-      setRegistradores(mapRegs(st?.regs));
+      setRegistradores(mapRegs(st?.regs, st?.pc));
       setCpsr(mapCpsr(st?.flags));
       setMemoria(prev => ({ ...prev, ...mapMem(st?.memory) }));
 
@@ -131,7 +132,29 @@ NOP`
   }
 
   async function onReset() {
-    await resetSim();
+    const novosRegistradores = {};
+    for (let i = 0; i < 16; i++) {
+      const nome = `R${i}`;
+      const desc =
+        i === 13 ? "SP (Stack Pointer)" :
+        i === 14 ? "LR (Link Register)" :
+        i === 15 ? "PC (Program Counter)" : "";
+      novosRegistradores[`registrador${i + 1}`] = new Registrador(nome, 0, desc);
+    }
+    setRegistradores(novosRegistradores);
+
+    setCpsr(new CPSR(0, 0, 0, 0, 0));
+
+    setMemoria({
+      memoria1: new Memoria("0x1000", "0x00000000"),
+      memoria2: new Memoria("0x1004", "0x00000000"),
+      memoria3: new Memoria("0x1008", "0x00000000"),
+      memoria4: new Memoria("0x100C", "0x00000000"),
+      memoria5: new Memoria("0x1010", "0x00000000"),
+      memoria6: new Memoria("0x1014", "0x00000000"),
+      memoria7: new Memoria("0x1018", "0x00000000"),
+      memoria8: new Memoria("0x101C", "0x00000000"),
+    });
   }
 
   // === Render ===

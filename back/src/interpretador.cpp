@@ -104,58 +104,32 @@ std::vector<Instrucao> interpretar_arquivo(const std::string& caminho) {
             inst.tipo = (opcode == "LSL") ? TipoInstrucao::LSL : TipoInstrucao::LSR;
 
         } else if (opcode == "LDR" || opcode == "STR") {
-            std::string reg, addr;
-            ss >> reg >> addr;
-            inst.destino = std::stoi(reg.substr(1));
-            inst.origem1 = std::stoi(addr.substr(2, addr.find(']') - 2)); // Ex: [R3] -> pega 3
-            inst.tipo = (opcode == "LDR") ? TipoInstrucao::LDR : TipoInstrucao::STR;
-
-        } else if (opcode == "LDR" || opcode == "STR") {
             std::string reg, addr1, addr2;
-            ss >> reg >> addr1;
-
+            ss >> reg >> addr1 >> addr2;
             inst.destino = std::stoi(reg.substr(1));
             inst.tipo = (opcode == "LDR") ? TipoInstrucao::LDR : TipoInstrucao::STR;
 
             if (addr1[0] == '[') {
-                // Remove colchetes
-                //addr1.erase(std::remove(addr1.begin(), addr1.end(), '['), addr1.end());
-                //addr1.erase(std::remove(addr1.begin(), addr1.end(), ']'), addr1.end());
-
                 size_t virgula = addr1.find(',');
                 if (virgula != std::string::npos) {
                     // [Rn, #offset]
-                    std::string base = addr1.substr(0, virgula);
-                    std::string offset = addr1.substr(virgula + 1);
-                    inst.origem1 = std::stoi(base.substr(1));
-                    inst.imediato = std::stoi(offset.substr(1));
+                    std::string base = addr1.substr(1, addr1.find(',') - 1);  // tira o '[' e pega só o Rn
+                    inst.origem1 = std::stoi(base.substr(1));                 // remove 'R' e converte
+
+                    std::string offset = addr2;                               // "#4]"
+                    offset.pop_back();                                        // remove ']'
+                    inst.imediato = std::stoi(offset.substr(1));              // remove '#' e converte
                 } else {
                     // [Rn]
-                    inst.origem1 = std::stoi(addr1.substr(1));
+                    inst.origem1 = std::stoi(addr1.substr(2, addr1.find(']') - 2)); // Ex: [R3] -> pega 3
                     inst.imediato = 0;
                 }
-
-            } else {
-                if (addr1.back() == ',') {
-                    addr1.pop_back(); // Remove vírgula se estiver grudada
-                }
-
-                inst.origem1 = std::stoi(addr1.substr(1));
-
-                if (ss >> addr2) {
-                    if (addr2[0] == '#') {
-                        inst.imediato = std::stoi(addr2.substr(1));
-                    } else {
-                        std::cerr << "[erro] Offset inválido em LDR/STR: " << addr2 << '\n';
-                        continue;
-                    }
-                } else {
-                    inst.imediato = 0;
-                }
+            } else { 
+                // Implementar parte de pegar dos registradores
             }
         } else {
             std::cerr << "[erro] Instrução inválida: " << linha << '\n';
-            continue;
+            continue;   
         }
 
         instrucoes.push_back(inst);

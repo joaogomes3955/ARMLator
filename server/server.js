@@ -31,6 +31,8 @@ const reC = /C\s*[:=]\s*(\d+)/;
 const reV = /V\s*[:=]\s*(\d+)/;
 const reMem = /MEM\s*0x([0-9a-fA-F]+)\s*=\s*0x([0-9a-fA-F]+)/g;
 
+// ------------- Functions ----------------
+
 function parseState(text) {
   // pega só o último bloco (após o último "----")
   const parts = text.split("----");
@@ -62,6 +64,37 @@ function parseState(text) {
   return { regs, pc, flags, memory };
 }
 
+function compileBackend() {
+  return new Promise((resolve, reject) => {
+    console.log("[BUILD] Compilando armlator com g++...");
+
+    const buildProc = spawn(
+      "g++",
+      ["-std=c++17", "-O2", "src/*.cpp", "-o", process.platform === "win32" ? "armlator.exe" : "armlator"],
+      { cwd: BACKEND_DIR, shell: true } // shell:true necessário pro *.cpp
+    );
+
+    buildProc.stdout.on("data", data => {
+      console.log("[BUILD OUT]", data.toString());
+    });
+
+    buildProc.stderr.on("data", data => {
+      console.error("[BUILD ERR]", data.toString());
+    });
+
+    buildProc.on("exit", code => {
+      console.log("[BUILD EXIT]", code);
+      if (code !== 0) {
+        reject(new Error("Falha ao compilar"));
+      } else {
+        ensureBinaryExists();
+        resolve();
+      }
+    });
+  });
+}
+
+
 function ensureBinaryExists() {
   if (!fs.existsSync(EXEC_PATH)) {
     throw new Error(`Binário não encontrado: ${EXEC_PATH}`);
@@ -78,10 +111,15 @@ function startChild() {
   child.on("exit", code => { console.log("[SIM EXIT]", code); child = null; });
 }
 
-app.post("/load", (req, res) => {
+// --------------------- Methods ------------------
+
+app.post("/load", async (req, res) => {
   const { programText } = req.body;
   try {
     fs.writeFileSync(path.join(BACKEND_DIR, "program.txt"), programText ?? "", "utf8");
+    if (child) { child.kill("SIGKILL"); child = null; }
+    await compileBackend();
+
     if (child) { child.kill("SIGKILL"); child = null; }
     startChild();
     res.json({ ok: true });
@@ -128,9 +166,19 @@ app.get("/state", (_req, res) => {
   res.json({ ok: true, state });
 });
 
+// --------------- MAIN --------------------
+
 const PORT = 3001;
-app.listen(PORT, () => {
-  console.log(`ARMLator bridge on http://localhost:${PORT}`);
-  console.log(`[BACKEND_DIR] ${BACKEND_DIR}`);
-  console.log(`[EXEC_PATH] ${EXEC_PATH}`);
-});
+compileBackend()
+  .then(() => {
+    const PORT = 3001;
+    app.listen(PORT, () => {
+      console.log(`ARMLator bridge on http://localhost:${PORT}`);
+      console.log(`[BACKEND_DIR] ${BACKEND_DIR}`);
+      console.log(`[EXEC_PATH] ${EXEC_PATH}`);
+    });
+  })
+  .catch(err => {
+    console.error("Erro ao compilar:", err.message);
+    process.exit(1);
+  });
